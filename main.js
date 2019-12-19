@@ -1,5 +1,6 @@
 $(document).ready(() => {
 const gallery = document.getElementById("gallery");
+const modalDiv = document.getElementById("modal-div");
 
 //----------search bar-------------//
 const searchContainer = document.querySelector(".search-container");
@@ -44,24 +45,31 @@ function createModal(userData){
         let street = user.location.street;
         let dob = user.dob;
 
-        modal += `<div class="modal-container">
-        <div class="modal">
-            <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-            <div class="modal-info-container">
-                <img class="modal-img" src="${img.large}" alt="profile picture">
-                <h3 id="name" class="modal-name cap">${name}</h3>
-                <p class="modal-text">${email}</p>
-                <p class="modal-text cap">${location.city}</p>
-                <hr>
-                <p class="modal-text">${phone}</p>
-                <p class="modal-text">${street}, ${location.state}, OR ${location.postcode}</p>
-                <p class="modal-text">Birthday: ${dob}</p>
+        modal += `
+        <div class="modal-container">
+            <div class="modal">
+                <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+                <div class="modal-info-container">
+                    <img class="modal-img" src="${img.large}" alt="profile picture">
+                    <h3 id="name" class="modal-name cap">${name}</h3>
+                    <p class="modal-text">${email}</p>
+                    <p class="modal-text cap">${location.city}</p>
+                    <hr>
+                    <p class="modal-text">${phone}</p>
+                    <p class="modal-text">${street}, ${location.state}, OR ${location.postcode}</p>
+                    <p class="modal-text">Birthday: ${dob}</p>
+                </div>
             </div>
         </div>`;
     });
     return modal;
 }
 
+    function displayModal(){
+        $(".card").on("click", (e)=>{
+
+        });
+    }
 
 //get 12 random users
 //const url = "https://randomuser.me/api/?results=12";
