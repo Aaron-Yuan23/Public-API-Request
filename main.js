@@ -67,6 +67,7 @@ function displayModal(index, userData){
         document.querySelector("body").removeChild(modalContainer);
     });
 
+    //implement logic for prev and next buttons
     const buttons = document.querySelectorAll('.modal-btn-container button');
     addOrRemoveButtons(index, userData, buttons);
     const prev = document.querySelector(".modal-btn-container #modal-prev");
@@ -82,6 +83,7 @@ function displayModal(index, userData){
     });
 }
 
+    //remove prev button from the first card and remove next button from the last card
     function addOrRemoveButtons(currentProfile, userData, buttons){
         if (currentProfile === 0){
             buttons[0].style.visibility = 'hidden';
@@ -116,6 +118,7 @@ function displayModal(index, userData){
         generateProfile(filteredProfiles);
     }
     
+    // display text if there is no result match
     function displayOrRemoveErrorMessage(results){
         if(results.length === 0) {
             if(document.querySelector('.errorMessage') === null){
