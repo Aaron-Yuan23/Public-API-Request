@@ -11,7 +11,6 @@ const searchHTML=`<form action="#" method="get">
 searchContainer.innerHTML= searchHTML;
 
 function generateProfile(profileData){
-    let card = "";
 
     //create each user card 
     for(let i=0; i<profileData.length; i++){
@@ -32,7 +31,7 @@ function generateProfile(profileData){
     let profiles = document.querySelectorAll(".card");
     profiles.forEach(profile =>{
         profile.addEventListener("click", (e)=>{
-            displayModal(parseInt(e.currentTarget.id), profileData)
+            displayModal(parseInt(e.currentTarget.id), profileData);
         });
     });
 }
@@ -53,10 +52,59 @@ function displayModal(index, userData){
                 <p class="modal-text">${userData[index].phone}</p>
                 <p class="modal-text">${userData[index].location.street.number},${userData[index].location.street.name}, ${userData[index].location.state}, ${userData[index].location.postcode}</p>
                 <p class="modal-text">Birthday: ${userData[index].dob.date.substring(0,10)}</p>
-            </div>
+        </div>
+        <div class="modal-btn-container">
+            <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+            <button type="button" id="modal-next" class="modal-next btn">Next</button>
         </div>`;
     document.querySelector("body").appendChild(modalContainer);
+
+    // x button to remove the modal
+    const x = document.querySelector(".modal-close-btn");
+    x.addEventListener("click", ()=>{ 
+        document.querySelector("body").removeChild(modalContainer);
+    });
+
+    //next and prev buttons
+    // const buttons = document.querySelectorAll('.modal-btn-container button');
+    // //addOrRemoveButtons(index, userData, buttons);
+
+    // buttons.forEach(button => {
+    //     button.addEventListener('click', e => {
+    //         //addOrRemoveButtons(index, userData, buttons);
+
+    //         document.querySelector('body').removeChild(modalContainer);
+    //         if(e.target.textContent === 'Next'){
+    //             displayModal(index + 1, userData);
+    //         } else if (e.target.textContent === 'Prev'){
+    //             displayModal(index - 1, userData);
+    //         }
+    //     });
+    // });
+    const buttons = document.querySelectorAll('.modal-btn-container button');
+    addOrRemoveButtons(index, userData, buttons);
+    const prev = document.querySelector(".modal-btn-container #modal-prev");
+    prev.addEventListener("click", ()=>{
+            document.querySelector('body').removeChild(modalContainer);
+            displayModal(index - 1, userData);
+    });
+
+    const next = document.querySelector(".modal-btn-container #modal-next");
+    next.addEventListener("click", ()=>{
+        document.querySelector('body').removeChild(modalContainer);
+            displayModal(index + 1, userData);
+    });
 }
+
+    function addOrRemoveButtons(currentProfile, userData, buttons){
+        if (currentProfile === 0){
+            buttons[0].style.visibility = 'hidden';
+            buttons[1].style.visibility = 'visible';
+        } else if (currentProfile=== userData.length -1){
+            buttons[0].style.visibility = 'visible';
+            buttons[1].style.visibility = 'hidden';
+        }
+    }
 
 //get 12 random users
 fetch('https://randomuser.me/api/?results=12&nat=ca&inc=picture,name,email,location,dob,phone')

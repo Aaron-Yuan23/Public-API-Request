@@ -50,77 +50,77 @@ const displayModal = (profileIndex, data) => {
                 <p class="modal-text">Birthday: ${data[profileIndex].dob.date.substring(0,10)}</p>
         </div>`
 
-   // document.querySelector('body').appendChild(modalContainer);
+   document.querySelector('body').appendChild(modalContainer);
 
-    // Remove modal window when 'X' button is clicked.
-    // document.querySelector('.modal-close-btn').addEventListener('click', () => {
-    //     document.querySelector('body').removeChild(document.querySelector('.modal-container'));
-    // })
+    //Remove modal window when 'X' button is clicked.
+    document.querySelector('.modal-close-btn').addEventListener('click', () => {
+        document.querySelector('body').removeChild(document.querySelector('.modal-container'));
+    })
 
-    // // Target 'Next' and 'Prev' buttons on modal window.
-    // const buttons = document.querySelectorAll('.modal-btn-container button');
+    // Target 'Next' and 'Prev' buttons on modal window.
+    const buttons = document.querySelectorAll('.modal-btn-container button');
 
-    // /*
-    //     Hide or display buttons depending on index of profile. 
-    //     Eg. If first profile is selected, 'Prev' button is hidden.
-    //     If last profile is selected, 'Next' button is hidden.
-    //     If only one profile is displayed, no buttons are visible.
-    // */
-    // addOrRemoveButtons(profileIndex, data, buttons);
+    /*
+        Hide or display buttons depending on index of profile. 
+        Eg. If first profile is selected, 'Prev' button is hidden.
+        If last profile is selected, 'Next' button is hidden.
+        If only one profile is displayed, no buttons are visible.
+    */
+    addOrRemoveButtons(profileIndex, data, buttons);
 
-    // // Click listener for each button, displays either next or previous modal window.
-    // buttons.forEach(button => {
-    //     button.addEventListener('click', e => {
-    //         addOrRemoveButtons(profileIndex, data, buttons);
+    // Click listener for each button, displays either next or previous modal window.
+    buttons.forEach(button => {
+        button.addEventListener('click', e => {
+            addOrRemoveButtons(profileIndex, data, buttons);
 
-    //         document.querySelector('body').removeChild(modalContainer);
-    //         if(e.target.textContent === 'Next'){
-    //             displayModal(profileIndex + 1, data);
-    //         } else if (e.target.textContent === 'Prev'){
-    //             displayModal(profileIndex - 1, data);
-    //         }
-    //     })
-    // })
+            document.querySelector('body').removeChild(modalContainer);
+            if(e.target.textContent === 'Next'){
+                displayModal(profileIndex + 1, data);
+            } else if (e.target.textContent === 'Prev'){
+                displayModal(profileIndex - 1, data);
+            }
+        })
+    })
 }
 
-// Function to filter profiles depending on search bar value.
-// const filterProfiles = (searchInput, data) => {
+//Function to filter profiles depending on search bar value.
+const filterProfiles = (searchInput, data) => {
 
-//     // Empty existing filtered array.
-//     filteredProfiles = [];
+    // Empty existing filtered array.
+    filteredProfiles = [];
 
-//     // If a modal window exists, remove it.
-//     if(document.querySelector('.modal-container')){
-//         document.querySelector('body').removeChild('.modal-container');
-//     }
+    // If a modal window exists, remove it.
+    if(document.querySelector('.modal-container')){
+        document.querySelector('body').removeChild('.modal-container');
+    }
     
-//     // Filtering process, pushes matching profiles to filteredProfiles array.
-//     data.forEach(profile => {
-//         if (profile.name.first.includes(searchInput) || profile.name.last.includes(searchInput)){
-//             filteredProfiles.push(profile);
-//         }
-//     })
+    // Filtering process, pushes matching profiles to filteredProfiles array.
+    data.forEach(profile => {
+        if (profile.name.first.includes(searchInput) || profile.name.last.includes(searchInput)){
+            filteredProfiles.push(profile);
+        }
+    })
 
-//     // Display or remove error message as required.
-//     displayOrRemoveErrorMessage(filteredProfiles);
+    // Display or remove error message as required.
+    displayOrRemoveErrorMessage(filteredProfiles);
 
-//     // Generate new profile cards using filteredProfiles array of objects.
-//     generateProfile(filteredProfiles);
-// }
+    // Generate new profile cards using filteredProfiles array of objects.
+    generateProfile(filteredProfiles);
+}
 
-// Function to hide or show 'Next' or 'Prev' buttons depending on displayed profile.
-// const addOrRemoveButtons = (displayedProfile, data, buttons) => {
-//     if(displayedProfile === 0 && data.length === 1){
-//         buttons[0].style.visibility = 'hidden';
-//         buttons[1].style.visibility = 'hidden';
-//     } else if (displayedProfile === 0){
-//         buttons[0].style.visibility = 'hidden';
-//         buttons[1].style.visibility = 'visible';
-//     } else if (displayedProfile === data.length -1){
-//         buttons[0].style.visibility = 'visible';
-//         buttons[1].style.visibility = 'hidden';
-//     }
-// }
+//Function to hide or show 'Next' or 'Prev' buttons depending on displayed profile.
+const addOrRemoveButtons = (displayedProfile, data, buttons) => {
+    if(displayedProfile === 0 && data.length === 1){
+        buttons[0].style.visibility = 'hidden';
+        buttons[1].style.visibility = 'hidden';
+    } else if (displayedProfile === 0){
+        buttons[0].style.visibility = 'hidden';
+        buttons[1].style.visibility = 'visible';
+    } else if (displayedProfile === data.length -1){
+        buttons[0].style.visibility = 'visible';
+        buttons[1].style.visibility = 'hidden';
+    }
+}
 
 // Function to check if no search matches are found. Displays error message if so, removes error message (if it exists) if not.
 // const displayOrRemoveErrorMessage = results => {
