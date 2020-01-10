@@ -1,17 +1,19 @@
 
-const gallery = document.getElementById("gallery");
+
 
 
 //----------search bar-------------//
-const searchContainer = document.querySelector(".search-container");
-const searchHTML=`<form action="#" method="get">
-<input type="search" id="search-input" class="search-input" placeholder="Search...">
-<input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
-</form>`;
-searchContainer.innerHTML= searchHTML;
+
+document.querySelector('.search-container').innerHTML = 
+    `<form action="#" method="get">
+        <input type="search" id="search-input" class="search-input" placeholder="Search...">
+        <input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit">
+    </form>`;
+
 
 function generateProfile(profileData){
-
+    const gallery = document.getElementById("gallery");
+    gallery.innerHTML="";
     //create each user card 
     for(let i=0; i<profileData.length; i++){
         gallery.innerHTML +=`<div class="card" id="${i}">
@@ -65,22 +67,6 @@ function displayModal(index, userData){
         document.querySelector("body").removeChild(modalContainer);
     });
 
-    //next and prev buttons
-    // const buttons = document.querySelectorAll('.modal-btn-container button');
-    // //addOrRemoveButtons(index, userData, buttons);
-
-    // buttons.forEach(button => {
-    //     button.addEventListener('click', e => {
-    //         //addOrRemoveButtons(index, userData, buttons);
-
-    //         document.querySelector('body').removeChild(modalContainer);
-    //         if(e.target.textContent === 'Next'){
-    //             displayModal(index + 1, userData);
-    //         } else if (e.target.textContent === 'Prev'){
-    //             displayModal(index - 1, userData);
-    //         }
-    //     });
-    // });
     const buttons = document.querySelectorAll('.modal-btn-container button');
     addOrRemoveButtons(index, userData, buttons);
     const prev = document.querySelector(".modal-btn-container #modal-prev");
@@ -106,12 +92,56 @@ function displayModal(index, userData){
         }
     }
 
+
+    const searchProfiles = (input, data) => {
+
+        // Empty existing filtered array.
+        filteredProfiles = [];
+    
+        // If a modal window exists, remove it.
+        if(document.querySelector('.modal-container')){
+            document.querySelector('body').removeChild('.modal-container');
+        }
+        // Filtering process, pushes matching profiles to filteredProfiles array.
+        data.forEach(profile => {
+            if (profile.name.first.toLowerCase().includes(input) || profile.name.last.toLowerCase().includes(input)){
+                filteredProfiles.push(profile);
+            }
+        });
+    
+        // Display or remove error message as required.
+        displayOrRemoveErrorMessage(filteredProfiles);
+        
+        // Generate new profile cards using filteredProfiles array of objects.
+        generateProfile(filteredProfiles);
+    }
+    
+    function displayOrRemoveErrorMessage(results){
+        if(results.length === 0) {
+            if(document.querySelector('.errorMessage') === null){
+                let noResultsFound = document.createElement('p');
+                noResultsFound.className = 'errorMessage';
+                noResultsFound.textContent = 'No results found. Try again.';
+                document.querySelector('body').insertBefore(noResultsFound, gallery);
+            }      
+        } else {
+            if(document.querySelector('.errorMessage') !== null){
+                document.querySelector('.errorMessage').style.display = 'none';
+            }       
+        }
+    }
+
 //get 12 random users
 fetch('https://randomuser.me/api/?results=12&nat=ca&inc=picture,name,email,location,dob,phone')
 .then(data => data.json())
 .then(data =>{
     generateProfile(data.results);
-    console.log(data.results);
+    
+    document.querySelector('form').addEventListener('submit', e => {
+        e.preventDefault();
+        searchProfiles(e.target.firstElementChild.value.toLowerCase(), data.results);
+    });
+    
 });
 
 
